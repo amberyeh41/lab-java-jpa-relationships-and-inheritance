@@ -1,0 +1,38 @@
+package com.workshop.week8.model.nurse_management;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.workshop.week8.enums.nurse_management.Status;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+public class Member {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "member_name", nullable = false)
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column(name = "renewal_date", nullable = false)
+    private LocalDate renewalDate;
+
+    @ManyToOne
+    @JsonIgnoreProperties({"president", "members"})
+    @JoinColumn(name = "division_id")
+    private Division division;
+}
